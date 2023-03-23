@@ -1,32 +1,17 @@
-import * as React from 'react';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-
-import './MyReactComponent.scss';
+import * as React from "react";
+import { FunctionComponent } from "react";
+import { Button } from '@copart/core-components';
+import "./MyReactComponent.scss";
 
 export interface IMyComponentProps {
   counter: number;
   onClick?: () => void;
 }
 
-export const MyReactComponent: FunctionComponent<IMyComponentProps> = (props: IMyComponentProps) => {
-
-  const timerHandle = useRef<number | null>(null);
-  const [stateCounter, setStateCounter] = useState(42);
-
-  useEffect(() => {
-    timerHandle.current = +setInterval(() => {
-      setStateCounter(stateCounter + 1);
-    }, 2500);
-
-    return () => {
-      if (timerHandle.current) {
-        clearInterval(timerHandle.current);
-        timerHandle.current = null;
-      }
-    };
-  });
-
-  const {counter: propsCounter, onClick} = props;
+export const MyReactComponent: FunctionComponent<IMyComponentProps> = (
+  props: IMyComponentProps
+) => {
+  const { counter: propsCounter, onClick } = props;
 
   const handleClick = () => {
     if (onClick) {
@@ -34,11 +19,12 @@ export const MyReactComponent: FunctionComponent<IMyComponentProps> = (props: IM
     }
   };
 
-  return <div className={`my-graph-component`}>
-    <div className={'comp-props'}>Props counter: {propsCounter}
-      <span onClick={handleClick}
-            className={'increase-button'}>click to increase</span>
+  return (
+    <div className={`my-graph-component`}>
+      <div className={"comp-props"}>
+        Counter: {propsCounter}
+        <Button primary onClick={handleClick}>{'Click to Increase'}</Button>
+      </div>
     </div>
-    <div className={'comp-state'}>State counter: {stateCounter}</div>
-  </div>;
+  );
 };
